@@ -10,7 +10,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - run: |
-          #!/bin/bash
           pip install flake8
           pip install pylint
           flake8 main.py
