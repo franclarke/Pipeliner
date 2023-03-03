@@ -10,29 +10,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - run: |
-          #!/bin/bash
           pip install flake8
           pip install pylint
           flake8 main.py
           pylint main.py
   unittest:
-    needs: linting
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - run: |
-          #!/bin/bash
-          python -m unittest --verbose --failfast
+      - run: python -m unittest --verbose --failfast
   store:
     needs: unittest
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - run: |
-          #!/bin/bash
-          python main.py
+      - run: python main.py
       - name: upload articfact
         uses: actions/upload-artifact@v3
         with:
@@ -45,14 +39,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Download artifact
-        needs: store
         uses: actions/download-artifact@v3
         with:
           name: index
       - run: |
-          #!/bin/bash
-          http_code=$(curl -v --stderr deploy.log -w "%{http_code}\n" -F password=${{ secrets.PASSWORD }} -F file=@build/index.html -F user=${{ secrets.USER }} https://cs.uns.edu.ar/~jose.moyano/index.php)
-          echo "$http_code" > http_code.txt
+              http_code=$(curl -v --stderr deploy.log -w "%{http_code}\n" -F password=${{ secrets.PASSWORD }} -F file=@build/index.html -F user=${{ secrets.USER }} https://cs.uns.edu.ar/~jose.moyano/index.php)
+              echo "$http_code" > http_code.txt
       - name: Guardar deploy-log
         uses: actions/upload-artifact@v3
         with:
@@ -60,8 +52,8 @@ jobs:
           path: ./deploy.log
       - name: Chequear code 200
         run: |
-          if [ "$(cat http_code.txt)" -eq 200 ]; then
-            echo "Exito"
-          else
-            echo "Error"
-          fi
+              if [ "$(cat http_code.txt)" -eq 200 ]; then
+                echo "Exito"
+              else
+                echo "Error"
+              fi
