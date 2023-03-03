@@ -9,10 +9,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - uses: actions/setup-python@v1
       - run: |
-          pip install flake8
-          pip install pylint
+          pip install --user flake8
+          pip install --user pylint
           flake8 main.py
           pylint main.py
   unittest:
