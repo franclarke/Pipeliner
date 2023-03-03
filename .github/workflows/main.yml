@@ -15,6 +15,7 @@ jobs:
           flake8 main.py
           pylint main.py
   unittest:
+    needs: linting
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
