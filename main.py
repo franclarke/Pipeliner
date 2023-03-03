@@ -1,9 +1,10 @@
 #!/usr/bin/python3
-
+"""Modulo main"""
 import os
 
 
 def main():
+    """Crea un archivo html en la ruta ./build/"""
     if not os.path.exists("build"):
         os.makedirs("build")
     try:
